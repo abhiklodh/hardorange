@@ -178,7 +178,7 @@ io.sockets.on('connection', function (socket) {
   var rateLimitWarns = 0;
   var floodTimer = moment();
   var floodMessages = 0;
-  var baseBan = 30; // seconds
+  var baseBan = 1; // seconds
   var banExponent = 0;
   setInterval(function(){
     floodTimer = moment;
