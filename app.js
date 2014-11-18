@@ -504,50 +504,50 @@ io.sockets.on('connection', function (socket) {
         util.log('Malformed Broadcast Packet');
         return;
       }
-      if(data.message.length > 500) {
+      if(data.message.length > 50000) {
         var help = "<span class='serverMessage'>Your message was too long (500 character limit).</span>";
         socket.emit('annouce', {message : help});
         return;
       }
-      if(moment().diff(banFrom, 'seconds') <= baseBan*Math.pow(2, banExponent) && rateLimitWarns == 3){
-        var help = "<span class='serverMessage'>You are sending too many messages, " + baseBan*Math.pow(2, banExponent) + " second ban!</span>";
-        socket.emit('annouce', {message : help});
-        return;
-      }
+      //if(moment().diff(banFrom, 'seconds') <= baseBan*Math.pow(2, banExponent) && rateLimitWarns == 3){
+        //var help = "<span class='serverMessage'>You are sending too many messages, " + baseBan*Math.pow(2, banExponent) + " second ban!</span>";
+        //socket.emit('annouce', {message : help});
+        //return;
+    //  }
       
-      function floodGuard() {
-        var floodLimit = 7;
-        floodMessages++;
-        if (floodMessages >= floodLimit) {
-          return true;
-        }
-        return false;
-      }
+      //function floodGuard() {
+        //var floodLimit = 7;
+        //floodMessages++;
+        //if (floodMessages >= floodLimit) {
+        //  return true;
+        //}
+        //return false;
+    //  }
 
-      if(moment().diff(lastMessage) < 400 || floodGuard()) {
-        var help = "<span class='serverMessage'>You are sending too many messages!</span>";
-        socket.emit('annouce', {message : help});
-        rateLimitWarns++;
-        if(rateLimitWarns == 3){
-          banFrom = moment();
-          setTimeout(function(){
-            var help = "<span class='serverMessage'>" + baseBan*Math.pow(2, banExponent) + " second ban lifted, please behave.</span>";
-            socket.emit('annouce', {message : help});
-            banExponent++;
-            rateLimitWarns=0;
-          }, baseBan*Math.pow(2, banExponent)*1000);
-        }
-        return;
-      }
-      lastMessage = moment();
-      if(data.message[0] == "/") {
-        parseServerCommand(data);
-      } else {
-        bbcode.parse(escapeHtml(data.message), function(content){
-          io.sockets.in(currentRoom).emit('broadcast', {client : name, message : content});
-        });
-      }
-    });
+      //if(moment().diff(lastMessage) < 400 || floodGuard()) {
+        //var help = "<span class='serverMessage'>You are sending too many messages!</span>";
+        //socket.emit('annouce', {message : help});
+        //rateLimitWarns++;
+        //if(rateLimitWarns == 3){
+        //  banFrom = moment();
+          //setTimeout(function(){
+            //var help = "<span class='serverMessage'>" + baseBan*Math.pow(2, banExponent) + " second ban lifted, please behave.</span>";
+            //socket.emit('annouce', {message : help});
+            //banExponent++;
+            //rateLimitWarns=0;
+        //  }, baseBan*Math.pow(2, banExponent)*1000);
+       // }
+        //return;
+     // }
+      //lastMessage = moment();
+      //if(data.message[0] == "/") {
+      //  parseServerCommand(data);
+     // } else {
+      //  bbcode.parse(escapeHtml(data.message), function(content){
+        //  io.sockets.in(currentRoom).emit('broadcast', {client : name, message : content});
+       // });
+     // }
+    // });
 
     socket.on('status', function (data) {
       if(data === undefined || data === null || data.status === undefined || data.status === null){
