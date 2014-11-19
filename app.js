@@ -505,12 +505,12 @@ io.sockets.on('connection', function (socket) {
         return;
       }
       if(data.message.length > 50000) {
-        var help = "<span class='serverMessage'>Your message was too long (500 character limit).</span>";
+        var help = "<span class='serverMessage'>Your message was too long (50000 character limit).</span>";
         socket.emit('annouce', {message : help});
         return;
       }
-      if(moment().diff(banFrom, 'seconds') <= baseBan*Math.pow(2, banExponent) && rateLimitWarns == 3){
-        var help = "<span class='serverMessage'>You are sending too many messages, " + baseBan*Math.pow(2, banExponent) + " second ban!</span>";
+      if(moment().diff(banFrom, 'seconds') <= baseBan*Math.pow(1, banExponent) && rateLimitWarns == 300){
+        var help = "<span class='serverMessage'>You are sending too many messages, " + baseBan*Math.pow(1, banExponent) + " second ban!</span>";
         socket.emit('annouce', {message : help});
         return;
       }
@@ -519,7 +519,7 @@ io.sockets.on('connection', function (socket) {
         var floodLimit = 7;
         floodMessages++;
         if (floodMessages >= floodLimit) {
-          return true;
+          return false;
         }
         return false;
       }
@@ -535,7 +535,7 @@ io.sockets.on('connection', function (socket) {
             socket.emit('annouce', {message : help});
             banExponent++;
             rateLimitWarns=0;
-          }, baseBan*Math.pow(2, banExponent)*1000);
+          }, baseBan*Math.pow(1, banExponent)*1000);
         }
         return;
       }
