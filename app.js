@@ -178,12 +178,12 @@ io.sockets.on('connection', function (socket) {
   var rateLimitWarns = 0;
   var floodTimer = moment();
   var floodMessages = 0;
-  var baseBan = 1; // seconds
+  var baseBan = 0.00001; // seconds
   var banExponent = 0;
   setInterval(function(){
     floodTimer = moment;
     floodMessages = 0;
-  },5000);     
+  },500000);     
   var banFrom = moment();
   var currentRoom = '#chat.hardorange.org';
   socket.join(currentRoom);
